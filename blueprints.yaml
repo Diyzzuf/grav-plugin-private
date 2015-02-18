@@ -1,0 +1,13 @@
+name: Private
+version: 0.4.5
+description: "Provide an authentication form to keep your Grav site or part of it private."
+icon: lock
+author:
+  name: Diyzzuf
+  email: Diyzzuf@users.noreply.github.com
+  url: https://github.com/Diyzzuf/grav-plugin-private
+homepage: https://github.com/Diyzzuf/grav-plugin-private
+keywords: private, plugin, grav
+bugs: https://github.com/Diyzzuf/grav-plugin-private/issues
+license: MIT
+

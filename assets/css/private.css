@@ -1,0 +1,35 @@
+.login {
+    padding: 0.1rem 0;
+    margin: auto;
+    width: 50%;
+    text-align: center; }
+.login:after {
+    content: "";
+    display: table;
+    clear: both; }
+@media only all and (max-width: 47.938rem) {
+    .login p {
+        font-size: 1rem; } }
+.login form {
+    display: block;
+    margin-top: 2rem;
+    margin-bottom: 1rem; }
+.login form label {
+    margin: 1rem 0;
+    font-size: 1.2rem; }
+.login form .buttons {
+    text-align: center;
+}
+@media only all and (max-width: 47.938rem) {
+    .login form {
+        width: 100%; } }
+
+.login .alert blockquote {
+    border-left: 10px solid #D9534F;
+    background: #FDF7F7;
+    color: #b52b27; }
+.login .alert  blockquote p {
+    font-size: 1.1rem;
+    color: #999; }
+
+.antispam-div { display: none; }

@@ -1,0 +1,52 @@
+<div class="login">
+
+    <h1>Private Area</h1>
+    <h2>Please <strong>login</strong> to view this content...</h2>
+
+    {% if login_error %}
+    <div class="alert">
+        {% if login_error == 'fail'  %}
+        <blockquote>
+            <p>{{ private.messages.fail }}</p>
+        </blockquote>
+        {% elseif login_error == 'error' %}
+        <blockquote>
+            <p>{{ private.messages.error }}</p>
+        </blockquote>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <form action="{{ page.slug }}" method="post" id="private">
+        <fieldset>
+
+            <!-- Username input-->
+            {% if private.enable_username == false %}
+            <input id="username" name="username" type="hidden" placeholder="{{ private.fields.username.placeholder }}" value="no_user" />
+            {% else %}
+            <div>
+                <label for="username">{{ private.fields.username.label }}</label>
+                <input id="username" name="username" type="text" placeholder="{{ private.fields.username.placeholder }}" />
+            </div>
+            {% endif %}
+
+            <!-- Password input-->
+            <div>
+                <label for="password">{{ private.fields.password.label }}</label>
+                <input id="password" name="password" type="password" placeholder="{{ private.fields.password.placeholder }}" />
+            </div>
+
+            <!-- Antispam input-->
+            <div class="antispam-div">
+                <input id="antispam" name="antispam" type="text" placeholder="{{ private.fields.antispam.placeholder }}" />
+            </div>
+
+            <!-- Form actions -->
+            <div class="buttons">
+                <button class="button" type="submit"> {{ private.fields.login.label }}</button>
+            </div>
+
+        </fieldset>
+
+    </form>
+</div>
