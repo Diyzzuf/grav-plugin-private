@@ -1,3 +1,15 @@
+# v0.4.6
+## 03/10/2015
+
+1. [](#fix)
+    * Fix bug when the private tag is on first position
+    * Fix #1 : Added var home on config for full private redirection 
+    * Fix #2 : Compatibility sessions with other plugins 
+    * (Thanks to Vivalldi)
+
+2. [](#improved)
+    * Update Documentation
+    
 # v0.4.5
 ## 02/18/2015
 

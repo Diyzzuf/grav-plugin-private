@@ -37,6 +37,7 @@ To customize this parameters (and more), you first need to create an override co
 1. **Change** the default password in your `user/config/plugins/private.yaml`
 2. **Change** the default security salt in your `user/config/plugins/private.yaml`
 3. **Customize** your privacy rules
+4. **Customize** your home path for full private website
 
 # Options
 
@@ -46,11 +47,13 @@ Enable or Disable the entire plugin (default: `true`).
     enabled: (true|false)
 
 ###### Routing
-Routes of login and logout page. You can customize it by simple replacement of the value (e.g: login: "/admin" for "mywebsite.com/admin" )
+Routes of login, logout and home page. You can customize it by simple replacement of the value (e.g: login: "/admin" for "mywebsite.com/admin" )
+The home option is only for full private website (Bug fix #1)
 
     routes:
         login: "/login"
         logout: "/logout"
+        home: "/"
 
 ###### Security Salt
 Security Salt for session. You can go to this [generator](http://www.sethcardoza.com/tools/random-password-generator/) for your own.

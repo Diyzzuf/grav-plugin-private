@@ -35,10 +35,13 @@ class PrivatePlugin extends Plugin
 
         if( $options['enabled'] == true) {
         
-            session_start(); 
+             if (!isset($_SESSION)) {
+                session_start();
+            }
                 
             if($uri->path() == $options['routes']['logout']) {
-                session_destroy();
+                unset($_SESSION[$options['session_ss']]);
+                unset($_SESSION['username']);
                 $this->grav->redirect('/');
             } 
             
@@ -52,14 +55,14 @@ class PrivatePlugin extends Plugin
                     return;
                 }
                 else {
-                    $this->grav->redirect('/');
+                    $this->grav->redirect($options['routes']['home']);
                 }
                 
             }
             
             else {
                 if($options['private_site'] == true && (!isset($_SESSION[$options['session_ss']]) || $_SESSION[$options['session_ss']] == false ) ){
-                    $_SESSION['referer_redirect'] = $uri->path();
+                    // $_SESSION['referer_redirect'] = $uri->path();
                         $this->grav->redirect($options['routes']['login']);
                 } else {
                     $this->enable([
@@ -106,14 +109,14 @@ class PrivatePlugin extends Plugin
                 else {
                     
                     if($options['private_site'] == true ) {
-                        $_SESSION['referer_redirect'] = $uri->path();
+                        // $_SESSION['referer_redirect'] = $uri->path();
                         $this->grav->redirect($options['routes']['login']);
                     }
 
                     else {
                         if (array_key_exists( 'tag', $this->grav['page']->taxonomy() )) {
                             $find_tag = array_search( $options['private_tag'], $this->grav['page']->taxonomy()['tag'] );
-                            if( $find_tag ) {
+                            if( is_numeric($find_tag) ) {
                                 $_SESSION['referer_redirect'] = $uri->path();
                                 $this->grav->redirect($options['routes']['login']);
                             } else {
@@ -155,8 +158,12 @@ class PrivatePlugin extends Plugin
                 if ( false === $this->sendLogin() ) {
                     $page->content($twig->twig()->render('login.html.twig', ['private' => $options, 'page' => $page, 'login_error' => 'fail']));
                 } else {
-                    $redirect_referer = $_SESSION['referer_redirect'];
-                    unset($_SESSION['referer_redirect']); 
+                    if($options['private_site'] == true ) {
+                         $redirect_referer = $options['routes']['home'];
+                    }else{
+                        $redirect_referer = $_SESSION['referer_redirect'];
+                        unset($_SESSION['referer_redirect']); 
+                    }
                     $this->grav->redirect($redirect_referer);
                 }
             }

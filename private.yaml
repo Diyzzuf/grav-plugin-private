@@ -3,6 +3,7 @@ enabled: true
 routes:
   login: "/login"
   logout: "/logout"
+  home: "/"
 
 session_ss: random_value
 
