@@ -3,19 +3,17 @@ enabled: true
 routes:
   login: "/login"
   logout: "/logout"
+  home: "/"
 
 session_ss: random_value
 
-private_site: false
+private_site: true
 private_tag: hidden
 enable_username: false
 
 users:
   no_user : 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8
 
-texts:
-  h1 : Private Area
-  h2 : Please <strong>login</strong> to view this content...
 fields:
   username:
     label: "Username"

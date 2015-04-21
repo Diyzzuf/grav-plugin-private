@@ -9,16 +9,6 @@ use Grav\Common\Taxonomy;
 
 class PrivatePlugin extends Plugin
 {
-
-    /**
-     * @var
-     */
-    protected $uri;
-    protected $homepath;
-    protected $privateconf;
-    protected $login_error;
-
-
     /**
      * @return array
      */
@@ -38,66 +28,50 @@ class PrivatePlugin extends Plugin
             $this->active = false;
             return;
         }
-
-        if (!isset($_SESSION)) {
-            session_start();
-        }
-        
-        $this->grav['debugger']->addMessage($this->active);
             
-        $this->uri = $this->grav['uri'];
-        $this->homepath = $this->grav['config']->get('system.home.alias', null);
-        $this->privateconf = $this->grav['config']->get('plugins.private', null);
+        $uri = $this->grav['uri'];
+        $options = $this->grav['config']->get('plugins.private');
+        
 
-        if($this->isConnected() == true){
-
-            switch ($this->uri->path()) {
-                
-                case $this->privateconf['routes']['logout']:
-                    $this->logout();
-                    return;
-                    break;
-
-                case $this->privateconf['routes']['login']:
-                    $this->grav->redirect($this->homepath);
-                    return;
-                    break;
-                
-                default:
-                    return;
-                    break;
+        if( $options['enabled'] == true) {
+        
+             if (!isset($_SESSION)) {
+                session_start();
             }
-
-        } else {
-
-            switch ($this->uri->path()) {
                 
-                case $this->privateconf['routes']['logout']:
-                    $this->grav->redirect($this->homepath);
-                    return;
-                    break;
-
-                case $this->privateconf['routes']['login']:
+            if($uri->path() == $options['routes']['logout']) {
+                unset($_SESSION[$options['session_ss']]);
+                unset($_SESSION['username']);
+                $this->grav->redirect('/');
+            } 
+            
+            else if($uri->path() == $options['routes']['login']) {
+                if (!isset($_SESSION[$options['session_ss']]) || $_SESSION[$options['session_ss']] == false ) {
                     $this->enable([
                         'onTwigTemplatePaths'   => ['onTwigTemplatePaths', 0],
                         'onTwigSiteVariables'   => ['onTwigSiteVariables', 0],
                         'onPageInitialized'     => ['onPageInitialized', 0]
                     ]);
                     return;
-                    break;
+                }
+                else {
+                    $this->grav->redirect($options['routes']['home']);
+                }
                 
-                default:
-                    if($this->privateconf['private_site'] == true) {
-                        $this->grav->redirect($this->privateconf['routes']['login']);
-                        return;
-                    } else {
-                        $this->enable([
-                            'onPageInitialized' => ['onPageInitialized', 0]
-                        ]);
-                        return;
-                    }
-                    break;
             }
+            
+            else {
+                if($options['private_site'] == true && (!isset($_SESSION[$options['session_ss']]) || $_SESSION[$options['session_ss']] == false ) ){
+                    // $_SESSION['referer_redirect'] = $uri->path();
+                        $this->grav->redirect($options['routes']['login']);
+                } else {
+                    $this->enable([
+                        'onPageInitialized'     => ['onPageInitialized', 0]
+                    ]);
+                    return;
+                }
+            }
+
         }
         
     }
@@ -110,41 +84,54 @@ class PrivatePlugin extends Plugin
 
     public function onTwigSiteVariables()
     {
-        $twig = $this->grav['twig'];
-        $twig->twig_vars['privateconf'] = $this->privateconf;
-        if(!empty($this->login_error)){
-            $twig->twig_vars['login_error'] = $this->login_error;
+        if ( $this->grav['config']->get('plugins.private.enabled') ) {
+            $this->grav['assets']
+                ->add('plugin://private/assets/css/private.css')
+                ->add('plugin://private/assets/js/private.js');
         }
-
-        $this->grav['assets']
-            ->add('plugin://private/assets/css/private.css')
-            ->add('plugin://private/assets/js/private.js');
     }
+
 
     public function onPageInitialized()
     {
-      
-        if ($this->uri->path() == $this->privateconf['routes']['login']){
-            $this->getLoginPage();
-            return;
-        }
 
-        else if($this->privateconf['private_site'] == true ) {
-            $this->grav->redirect($this->privateconf['routes']['login']);
-            return;
-        }
+        $uri = $this->grav['uri'];
+        $options = $this->grav['config']->get('plugins.private');
 
-        else {
-            if (array_key_exists( 'tag', $this->grav['page']->taxonomy() )) {
-                $find_tag = in_array( $this->privateconf['private_tag'], $this->grav['page']->taxonomy()['tag'] );
-                if( $find_tag == true ) {
-                    $_SESSION['referer_redirect'] = $this->uri->path();
-                    $this->grav->redirect($this->privateconf['routes']['login']);
-                    return;
-                } else {
-                    return;
+        if( $options['enabled'] == true) {
+            
+            if (!isset($_SESSION[$options['session_ss']]) || $_SESSION[$options['session_ss']] == false ) {
+                
+                if ( $uri->path() == $options['routes']['login']){
+                    $this->getLoginPage();
+                }
+
+                else {
+                    
+                    if($options['private_site'] == true ) {
+                        // $_SESSION['referer_redirect'] = $uri->path();
+                        $this->grav->redirect($options['routes']['login']);
+                    }
+
+                    else {
+                        if (array_key_exists( 'tag', $this->grav['page']->taxonomy() )) {
+                            $find_tag = array_search( $options['private_tag'], $this->grav['page']->taxonomy()['tag'] );
+                            if( is_numeric($find_tag) ) {
+                                $_SESSION['referer_redirect'] = $uri->path();
+                                $this->grav->redirect($options['routes']['login']);
+                            } else {
+                                return;
+                            }
+                        }
+                    }
+
                 }
             }
+
+            else {
+                return;
+            }
+        
         }
 
     }
@@ -155,31 +142,34 @@ class PrivatePlugin extends Plugin
        
         $loginpage = new Page;
         $loginpage->init(new \SplFileInfo(__DIR__ . '/pages/login.md'));
-
         
         unset($this->grav['page']);
         $this->grav['page'] = $loginpage;
-        $this->grav['page']->header()->slug = substr($this->privateconf['routes']['login'], 1); ;
+
+        $page   = $this->grav['page'];
+        $twig   = $this->grav['twig'];
+        $uri    = $this->grav['uri'];
+        $options = (array) $this->grav['config']->get('plugins.private');
 
         if ( $_SERVER['REQUEST_METHOD'] == "POST") {
-            if ( $this->validateFormData() === false ) {
-                $this->login_error = 'error';
-                return;
-            }
-            if ( $this->sendLogin() === false ) {
-                $this->login_error = 'fail';
-                return;
+            if ( false === $this->validateFormData() ) {
+                $page->content($twig->twig()->render('login.html.twig', ['private' => $options, 'page' => $page, 'login_error' => 'error']));
             } else {
-                if($this->privateconf['private_site'] == true ) {
-                     $redirect_referer = $this->homepath;
-                }else{
-                    $redirect_referer = $_SESSION['referer_redirect'];
-                    unset($_SESSION['referer_redirect']); 
+                if ( false === $this->sendLogin() ) {
+                    $page->content($twig->twig()->render('login.html.twig', ['private' => $options, 'page' => $page, 'login_error' => 'fail']));
+                } else {
+                    if($options['private_site'] == true ) {
+                         $redirect_referer = $options['routes']['home'];
+                    }else{
+                        $redirect_referer = $_SESSION['referer_redirect'];
+                        unset($_SESSION['referer_redirect']); 
+                    }
+                    $this->grav->redirect($redirect_referer);
                 }
-                $this->grav->redirect($redirect_referer);
-                return;
             }
 
+        } else {
+            $page->content($twig->twig()->render('login.html.twig', ['private' => $options, 'page' => $page]));
         }
 
     }
@@ -220,28 +210,13 @@ class PrivatePlugin extends Plugin
     protected function sendLogin()
     {
         
-        $form = $this->filterFormData($_POST);
+        $form   = $this->filterFormData($_POST);
+        $options = $this->grav['config']->get('plugins.private');
 
 
-        if(isset($form['username']) == true && $this->privateconf['users'][$form['username']] == sha1($form['password'])) {
-            $_SESSION[$this->privateconf['session_ss']] = sha1($form['username']);
+        if(isset($form['username']) == true && $options['users'][$form['username']] == sha1($form['password'])) {
+            $_SESSION[$options['session_ss']] = true;
             $_SESSION['username'] = $form['username'];
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    protected function logout()
-    {
-        unset($_SESSION[$this->privateconf['session_ss']]);
-        unset($_SESSION['username']);
-        return $this->grav->redirect($this->homepath);
-    }
-
-    protected function isConnected()
-    {
-        if (isset($_SESSION[$this->privateconf['session_ss']]) && $_SESSION[$this->privateconf['session_ss']] == sha1($_SESSION['username'])){
             return true;
         } else {
             return false;
