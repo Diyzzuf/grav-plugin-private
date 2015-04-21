@@ -1,3 +1,17 @@
+# v1.0.1
+## 04/21/2015
+
+1. [](#fix)
+    * Fix #3.2 bug when they are only one tag
+    * Fix send login form route
+    * Thanks Vaseltior
+
+2. [](#improved)
+    * "Improve" security
+    * Rewrite Code
+    * Home variable is now the same as system.yaml home variable
+    * Update Documentation ( Need help for a best english documentation. )
+
 # v0.4.6
 ## 03/10/2015
 

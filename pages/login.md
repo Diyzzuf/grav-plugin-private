@@ -2,6 +2,6 @@
 title: Login
 slug: login
 robots: noindex,nofollow
-template: default
+template: login
 ---
 Login Page
