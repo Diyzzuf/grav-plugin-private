@@ -46,8 +46,7 @@ Enable or Disable the entire plugin (default: `true`).
     enabled: (true|false)
 
 ###### Routing
-Routes of login, logout and home page. You can customize it by simple replacement of the value (e.g: login: "/admin" for "mywebsite.com/admin" )
-The home option is only for full private website (Bug fix #1)
+Routes of login and logout. You can customize it by simple replacement of the value (e.g: login: "/admin" for "mywebsite.com/admin" )
 
     routes:
         login: "/login"

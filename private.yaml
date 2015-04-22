@@ -6,7 +6,7 @@ routes:
 
 session_ss: random_value
 
-private_site: false
+private_site: true
 private_tag: hidden
 enable_username: false
 

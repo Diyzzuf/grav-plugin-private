@@ -42,8 +42,6 @@ class PrivatePlugin extends Plugin
         if (!isset($_SESSION)) {
             session_start();
         }
-        
-        $this->grav['debugger']->addMessage($this->active);
             
         $this->uri = $this->grav['uri'];
         $this->homepath = $this->grav['config']->get('system.home.alias', null);
