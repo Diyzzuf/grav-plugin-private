@@ -1,3 +1,11 @@
+# v1.0.3
+## 02/01/2016
+
+1. [](#bugfix)
+    * Fix #9 #11 ( Thanks @ahmadassaf )
+2. [](#improved)
+    * Better Readme translation ( Thanks @mattarnster )
+
 # v1.0.2
 ## 04/22/2015
 
