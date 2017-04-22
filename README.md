@@ -1,3 +1,5 @@
+## Not Maintained
+
 # Private Grav Plugin
 
 `Private` is a [Grav](http://github.com/getgrav/grav) Plugin.
