@@ -1,4 +1,4 @@
-## Not Maintained
+## Works, but Not Maintained / Enhancement ( Because [future] feature of pro version of Grav Admin Plugin )
 
 # Private Grav Plugin
 
