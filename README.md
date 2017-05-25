@@ -1,5 +1,3 @@
-## Works, but Not Maintained / Enhancement ( Because [future] feature of pro version of Grav Admin Plugin )
-
 # Private Grav Plugin
 
 `Private` is a [Grav](http://github.com/getgrav/grav) Plugin.
