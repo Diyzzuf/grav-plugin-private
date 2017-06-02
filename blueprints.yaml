@@ -1,6 +1,6 @@
 name: Private
 version: 1.0.2
-description: "Provide an authentification form to keep your Grav site or part of it private."
+description: "Provide an authentication form to keep your Grav site or part of it private."
 icon: lock
 author:
   name: Diyzzuf
