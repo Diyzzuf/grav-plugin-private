@@ -221,7 +221,7 @@ class PrivatePlugin extends Plugin
         $form = $this->filterFormData($_POST);
 
 
-        if(isset($form['username']) == true && $this->privateconf['users'][$form['username']] == sha1($form['password'])) {
+        if(isset($form['username']) == true && array_key_exists($form['username'], $this->privateconf['users']) && $this->privateconf['users'][$form['username']] == sha1($form['password'])) {
             $_SESSION[$this->privateconf['session_ss']] = sha1($form['username']);
             $_SESSION['username'] = $form['username'];
             return true;
