@@ -3,6 +3,9 @@ namespace Grav\Plugin;
 
 use Grav\Common\Page\Collection;
 use Grav\Common\Page\Page;
+use Grav\Common\Data\Blueprints;
+use RocketTheme\Toolbox\Event\Event;
+
 use Grav\Common\Plugin;
 use Grav\Common\Uri;
 use Grav\Common\Taxonomy;
@@ -26,6 +29,7 @@ class PrivatePlugin extends Plugin
     {
         return [
             'onPluginsInitialized' => ['onPluginsInitialized', 0],
+            'onBlueprintCreated' => ['onBlueprintCreated',  0]
         ];
     }
 
@@ -36,6 +40,9 @@ class PrivatePlugin extends Plugin
     {
         if ($this->isAdmin()) {
             $this->active = false;
+            $events = [
+                'onBlueprintCreated' => ['onBlueprintCreated', 0]
+            ];
             return;
         }
 
@@ -245,6 +252,23 @@ class PrivatePlugin extends Plugin
             return false;
         }
     }
+    
+    public function onBlueprintCreated(Event $event)
+    {
+     $newtype = $event['type'];
+     if (0 === strpos($newtype, 'modular/')) {
+        } else {
+                    $blueprint = $event['blueprint'];
+        if ($blueprint->get('form/fields/tabs', null, '/')) {
+            $blueprints = new Blueprints(__DIR__ . '/blueprints/');
+            $extends = $blueprints->get($this->name);
+            $blueprint->extend($extends, false);
+        
+        }
+        }
+        
+    }
+
 
 
 
