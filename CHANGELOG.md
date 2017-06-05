@@ -1,3 +1,28 @@
+# v1.0.7
+## 02/06/2017
+
+1. [](#improved)
+   - Update blueprints ( Thanks @PeterTonoli ) and version number
+
+# v1.0.6
+## 02/06/2017
+
+1. [](#bugfix)
+   - Fix #27
+
+# v1.0.5
+## 22/04/2017
+
+1. [](#changes)
+   - Works, but Not Maintained / Enhancement ( Because [future] feature of pro version of Grav Admin Plugin ) => ( As long as I do not have the agreement of the team )
+
+# v1.0.4
+## 18/06/2016
+
+1. [](#improved)
+   - Add Little Doc Specification
+   - Add Little Comments on `private.yaml`
+
 # v1.0.3
 ## 02/01/2016
 
