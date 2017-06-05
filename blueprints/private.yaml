@@ -1,0 +1,22 @@
+form:
+  fields:
+    tabs:
+      type: tabs
+      active: 1
+      fields:
+        options:
+          fields:
+            publishing:
+              fields:
+
+                header.private:
+                  type: toggle
+                  label: PLUGIN_PRIVATE.MAKE_PRIVATE
+                  ordering@: 1
+                  toggleable: true
+                  highlight: 0
+                  options:
+                    0: Yes
+                    1: No
+                  validate:
+                    type: bool
