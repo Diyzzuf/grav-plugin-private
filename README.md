@@ -77,7 +77,7 @@ Enable (`true`) or Disable (`false`) the username field on the private page's lo
 List of users. For adding user, just create a new line **keeping the identation**. (default password: `password`)
 > Note : If enable_username is `false`, you must not delete the `no_user` user in the list.
 
->> Note : The password **MUST BE** a SHA1 value. See [SHA1 Online](http://www.sha1-online.com) to generate your SHA1 password.
+>> Note : The password **MUST BE** a SHA1 value. For quick checking see [SHA1 Online](http://www.sha1-online.com) to generate your SHA1 password. But it is adwised to generate it locally as http and any transmission is not as secure as no transmission at all. Use command: ` echo -n "yourpassword" | sha1sum`. You can remove it thereafter from bash history with `history -d 1234` and sourcing the ~/bashrc.
 
     users:
         no_user : sha1_password
