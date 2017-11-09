@@ -1,5 +1,7 @@
 # Private Grav Plugin
 
+New version is [Private Site](https://github.com/Diyzzuf/grav-plugin-private-site) (beta stage, not for production. Need users to test this plugin)
+
 `Private` is a [Grav](http://github.com/getgrav/grav) Plugin.
 
 Private provides an authentication form to keep your entire Grav site or part of it private from the general public.
