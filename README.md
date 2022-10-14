@@ -55,7 +55,7 @@ Routes of login and logout. You can customize it by replacing value (e.g: login:
         logout: "/logout"
 
 ###### Security Salt
-Security Salt for session. **IT MUST BE AN ALPHANUMERIC CHAR** You can go to this [generator](http://www.sethcardoza.com/tools/random-password-generator/) for your own. [temporary cached version](http://webcache.googleusercontent.com/search?q=cache:www.sethcardoza.com/tools/random-password-generator/)
+Security Salt for session. **IT MUST BE AN ALPHANUMERIC CHAR** You can go to this [generator](http://www.sha1-online.com/) for your own. (or similar SHA-1 Generator )
 
     session_ss: random_value
 
